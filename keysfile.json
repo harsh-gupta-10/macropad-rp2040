@@ -1,0 +1,401 @@
+{
+  "profiles": {
+    "0": {
+      "1": {
+        "name": "open chorme",
+        "key": [
+          "alt",
+          "tab"
+        ]
+      },
+      "2": {
+        "name": "Open Notepad",
+        "key": [
+          "windows"
+        ],
+        "software": "notepad"
+      },
+      "3": {
+        "name": "Open File Explorer",
+        "key": [
+          "windows",
+          "e"
+        ]
+      },
+      "4": {
+        "name": "Open Task Manager",
+        "key": [
+          "ctrl",
+          "shift",
+          "esc"
+        ]
+      },
+      "5": {
+        "name": "Minimize All Windows",
+        "key": [
+          "windows",
+          "d"
+        ]
+      },
+      "6": {
+        "name": "Open Run",
+        "key": [
+          "windows",
+          "r"
+        ]
+      },
+      "7": {
+        "name": "Take a Screenshot",
+        "key": [
+          "windows",
+          "print_screen"
+        ]
+      },
+      "8": {
+        "name": "window left",
+        "key": [
+          "windows",
+          "left"
+        ]
+      },
+      "9": {
+        "name": "window right",
+        "key": [
+          "windows",
+          "right"
+        ]
+      }
+    },
+    "1": {
+      "1": {
+        "name": "Open VS Code",
+        "key": [
+          "windows"
+        ],
+        "software": "vscode"
+      },
+      "2": {
+        "name": "open terminal",
+        "key": [
+          "ctrl",
+          "j"
+        ]
+      },
+      "3": {
+        "name": "left menu",
+        "key": [
+          "ctrl",
+          "b"
+        ]
+      },
+      "4": {
+        "name": "Close Tab",
+        "key": [
+          "ctrl",
+          "w"
+        ]
+      },
+      "5": {
+        "name": "Save All",
+        "key": [
+          "ctrl",
+          "k",
+          "s"
+        ]
+      },
+      "6": {
+        "name": "Toggle Sidebar",
+        "key": [
+          "ctrl",
+          "b"
+        ]
+      },
+      "7": {
+        "name": "Find",
+        "key": [
+          "ctrl",
+          "f"
+        ]
+      },
+      "8": {
+        "name": "Replace",
+        "key": [
+          "ctrl",
+          "h"
+        ]
+      },
+      "9": {
+        "name": "Run Debug",
+        "key": [
+          "f5"
+        ]
+      }
+    },
+    "2": {
+      "1": {
+        "name": "Start Recording",
+        "key": [
+          "ctrl",
+          "shift",
+          "r"
+        ]
+      },
+      "2": {
+        "name": "Stop Recording",
+        "key": [
+          "ctrl",
+          "shift",
+          "s"
+        ]
+      },
+      "3": {
+        "name": "Start Streaming",
+        "key": [
+          "ctrl",
+          "shift",
+          "t"
+        ]
+      },
+      "4": {
+        "name": "Stop Streaming",
+        "key": [
+          "ctrl",
+          "shift",
+          "u"
+        ]
+      },
+      "5": {
+        "name": "Switch Scene 1",
+        "key": [
+          "ctrl",
+          "1"
+        ]
+      },
+      "6": {
+        "name": "Switch Scene 2",
+        "key": [
+          "ctrl",
+          "2"
+        ]
+      },
+      "7": {
+        "name": "Mic Mute/Unmute",
+        "key": [
+          "ctrl",
+          "m"
+        ]
+      },
+      "8": {
+        "name": "Desktop Audio Mute/Unmute",
+        "key": [
+          "ctrl",
+          "d"
+        ]
+      },
+      "9": {
+        "name": "Toggle Studio Mode",
+        "key": [
+          "ctrl",
+          "shift",
+          "f"
+        ]
+      }
+    },
+    "3": {
+      "1": {
+        "name": "Open Calculator",
+        "key": [
+          "windows"
+        ],
+        "software": "calculator"
+      },
+      "2": {
+        "name": "Open Paint",
+        "key": [
+          "windows"
+        ],
+        "software": "mspaint"
+      },
+      "3": {
+        "name": "Open Word",
+        "key": [
+          "windows"
+        ],
+        "software": "word"
+      },
+      "4": {
+        "name": "Open Excel",
+        "key": [
+          "windows"
+        ],
+        "software": "excel"
+      },
+      "5": {
+        "name": "Open PowerPoint",
+        "key": [
+          "windows"
+        ],
+        "software": "powerpoint"
+      },
+      "6": {
+        "name": "Open Discord",
+        "key": [
+          "windows"
+        ],
+        "software": "discord"
+      },
+      "7": {
+        "name": "Open Blender",
+        "key": [
+          "windows"
+        ],
+        "software": "blender"
+      },
+      "8": {
+        "name": "Open Chrome",
+        "key": [
+          "windows"
+        ],
+        "software": "chrome"
+      },
+      "9": {
+        "name": "Open Edge",
+        "key": [
+          "windows"
+        ],
+        "software": "msedge"
+      }
+    },
+    "4": {
+      "1": {
+        "name": "Open Settings",
+        "key": [
+          "windows",
+          "i"
+        ]
+      },
+      "2": {
+        "name": "Open Action Center",
+        "key": [
+          "windows",
+          "a"
+        ]
+      },
+      "3": {
+        "name": "Open Run Dialog",
+        "key": [
+          "windows",
+          "r"
+        ]
+      },
+      "4": {
+        "name": "Open Search",
+        "key": [
+          "windows",
+          "s"
+        ]
+      },
+      "5": {
+        "name": "Open Clipboard History",
+        "key": [
+          "windows",
+          "v"
+        ]
+      },
+      "6": {
+        "name": "Lock Windows",
+        "key": [
+          "windows",
+          "l"
+        ]
+      },
+      "7": {
+        "name": "Open Game Bar",
+        "key": [
+          "windows",
+          "g"
+        ]
+      },
+      "8": {
+        "name": "Open Connect",
+        "key": [
+          "windows",
+          "k"
+        ]
+      },
+      "9": {
+        "name": "Open Project",
+        "key": [
+          "windows",
+          "p"
+        ]
+      }
+    },
+    "5": {
+      "1": {
+        "name": "Open Photoshop",
+        "key": [
+          "windows"
+        ],
+        "software": "Photoshop"
+      },
+      "2": {
+        "name": "Open File",
+        "key": [
+          "ctrl",
+          "o"
+        ]
+      },
+      "3": {
+        "name": "Save File",
+        "key": [
+          "ctrl",
+          "s"
+        ]
+      },
+      "4": {
+        "name": "Undo",
+        "key": [
+          "ctrl",
+          "z"
+        ]
+      },
+      "5": {
+        "name": "Redo",
+        "key": [
+          "ctrl",
+          "shift",
+          "z"
+        ]
+      },
+      "6": {
+        "name": "Copy",
+        "key": [
+          "ctrl",
+          "c"
+        ]
+      },
+      "7": {
+        "name": "Paste",
+        "key": [
+          "ctrl",
+          "v"
+        ]
+      },
+      "8": {
+        "name": "Cut",
+        "key": [
+          "ctrl",
+          "x"
+        ]
+      },
+      "9": {
+        "name": "Select All",
+        "key": [
+          "ctrl",
+          "a"
+        ]
+      }
+    }
+  }
+}
