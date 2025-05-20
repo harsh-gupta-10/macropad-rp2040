@@ -2,11 +2,12 @@
   "profiles": {
     "0": {
       "1": {
-        "name": "open chorme",
+        "name": "add",
         "key": [
-          "alt",
-          "tab"
-        ]
+          "text_input"
+        ],
+        "text_type": "single",
+        "text_content": "daaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\n"
       },
       "2": {
         "name": "Open Notepad",
@@ -38,10 +39,11 @@
         ]
       },
       "6": {
-        "name": "Open Run",
+        "name": "chormre",
         "key": [
-          "windows",
-          "r"
+          "ctrl",
+          "alt",
+          "0"
         ]
       },
       "7": {
@@ -157,11 +159,11 @@
         ]
       },
       "4": {
-        "name": "Stop Streaming",
+        "name": "pause rec",
         "key": [
           "ctrl",
           "shift",
-          "u"
+          "p"
         ]
       },
       "5": {
@@ -193,11 +195,11 @@
         ]
       },
       "9": {
-        "name": "Toggle Studio Mode",
+        "name": "mute unmute",
         "key": [
           "ctrl",
           "shift",
-          "f"
+          "m"
         ]
       }
     },

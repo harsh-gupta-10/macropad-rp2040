@@ -92,10 +92,104 @@ def type_string(text):
         elif char == " ":  # Space
             keyboard.press(Keycode.SPACE)
             keyboard.release(Keycode.SPACE)
+        elif char == "\n":  # Newline
+            keyboard.press(Keycode.ENTER)
+            keyboard.release(Keycode.ENTER)
+        elif char == "\t":  # Tab
+            keyboard.press(Keycode.TAB)
+            keyboard.release(Keycode.TAB)
+        elif char.isdigit():  # Numbers
+            key_attr = f"KEYCODE_{char}"
+            if hasattr(Keycode, key_attr):
+                keyboard.press(getattr(Keycode, key_attr))
+                keyboard.release(getattr(Keycode, key_attr))
+            else:
+                # Fallback for numbers
+                num_keys = {
+                    "0": Keycode.ZERO, "1": Keycode.ONE, "2": Keycode.TWO, "3": Keycode.THREE,
+                    "4": Keycode.FOUR, "5": Keycode.FIVE, "6": Keycode.SIX, "7": Keycode.SEVEN,
+                    "8": Keycode.EIGHT, "9": Keycode.NINE
+                }
+                if char in num_keys:
+                    keyboard.press(num_keys[char])
+                    keyboard.release(num_keys[char])
+        elif char in ",.;:-_=+()[]{}!@#$%^&*?/\\":  # Common punctuation
+            # Map of special characters to their key combinations
+            punctuation_map = {
+                ",": (None, Keycode.COMMA),
+                ".": (None, Keycode.PERIOD),
+                ";": (None, Keycode.SEMICOLON),
+                ":": (Keycode.SHIFT, Keycode.SEMICOLON),
+                "-": (None, Keycode.MINUS),
+                "_": (Keycode.SHIFT, Keycode.MINUS),
+                "=": (None, Keycode.EQUALS),
+                "+": (Keycode.SHIFT, Keycode.EQUALS),
+                "(": (Keycode.SHIFT, Keycode.NINE),
+                ")": (Keycode.SHIFT, Keycode.ZERO),
+                "[": (None, Keycode.LEFT_BRACKET),
+                "]": (None, Keycode.RIGHT_BRACKET),
+                "{": (Keycode.SHIFT, Keycode.LEFT_BRACKET),
+                "}": (Keycode.SHIFT, Keycode.RIGHT_BRACKET),
+                "!": (Keycode.SHIFT, Keycode.ONE),
+                "@": (Keycode.SHIFT, Keycode.TWO),
+                "#": (Keycode.SHIFT, Keycode.THREE),
+                "$": (Keycode.SHIFT, Keycode.FOUR),
+                "%": (Keycode.SHIFT, Keycode.FIVE),
+                "^": (Keycode.SHIFT, Keycode.SIX),
+                "&": (Keycode.SHIFT, Keycode.SEVEN),
+                "*": (Keycode.SHIFT, Keycode.EIGHT),
+                "?": (Keycode.SHIFT, Keycode.FORWARD_SLASH),
+                "/": (None, Keycode.FORWARD_SLASH),
+                "\\": (None, Keycode.BACKSLASH)
+            }
+            
+            if char in punctuation_map:
+                modifier, keycode = punctuation_map[char]
+                if modifier:
+                    keyboard.press(modifier, keycode)
+                    keyboard.release(modifier, keycode)
+                else:
+                    keyboard.press(keycode)
+                    keyboard.release(keycode)
+            else:
+                print(f"Unsupported punctuation: {char}")
         else:
             # Handle unsupported characters
             print(f"Unsupported character: {char}")
         time.sleep(0.05)  # Add a short delay between characters
+
+def type_text_content(text_content, text_type="single"):
+    """Type the content of a text configuration.
+    
+    Args:
+        text_content (str): The text to type
+        text_type (str): Type of text input
+            - "single": Type the text as-is
+            - "line-by-line": Type each line with a pause between
+            - "paragraph": Type with proper paragraph formatting
+    """
+    if text_type == "line-by-line":
+        lines = text_content.splitlines()
+        for i, line in enumerate(lines):
+            type_string(line)
+            if i < len(lines) - 1:  # Don't add newline after last line
+                keyboard.press(Keycode.ENTER)
+                keyboard.release(Keycode.ENTER)
+                time.sleep(0.2)  # Pause between lines
+    elif text_type == "paragraph":
+        # Add two newlines between paragraphs
+        paragraphs = text_content.split('\n\n')
+        for i, para in enumerate(paragraphs):
+            type_string(para)
+            if i < len(paragraphs) - 1:  # Don't add newline after last paragraph
+                keyboard.press(Keycode.ENTER)
+                keyboard.release(Keycode.ENTER)
+                time.sleep(0.1)
+                keyboard.press(Keycode.ENTER)
+                keyboard.release(Keycode.ENTER)
+                time.sleep(0.2)
+    else:  # Default to "single"
+        type_string(text_content)
 
 # Generate profiles with functions from JSON configuration
 for profile_idx, profile_data in profiles_config.items():
@@ -114,6 +208,22 @@ for profile_idx, profile_data in profiles_config.items():
                 "key": key_config["key"],
                 "function": lambda s=software_name: open_software(s)
             }
+        elif "key" in key_config and "text_input" in key_config["key"]:
+            # This is a text input action
+            if "text_content" in key_config:
+                text_content = key_config["text_content"]
+                text_type = key_config.get("text_type", "single")
+                profiles[profile_idx][key_idx] = {
+                    "name": key_config["name"],
+                    "key": key_config["key"],
+                    "function": lambda t=text_content, ty=text_type: type_text_content(t, ty)
+                }
+            else:
+                profiles[profile_idx][key_idx] = {
+                    "name": key_config["name"],
+                    "key": key_config["key"],
+                    "function": lambda: print("No text content defined")
+                }
         else:
             # This is a key combination action
             key_combo = key_config["key"]
