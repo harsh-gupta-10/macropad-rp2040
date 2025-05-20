@@ -2,12 +2,12 @@
   "profiles": {
     "0": {
       "1": {
-        "name": "add",
+        "name": "dada",
         "key": [
           "text_input"
         ],
-        "text_type": "single",
-        "text_content": "daaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\ndaaadwadad dwa d daw\n"
+        "text_type": "paragraph",
+        "text_content": "cat\ndog\npokemon\nash\nmeow"
       },
       "2": {
         "name": "Open Notepad",
