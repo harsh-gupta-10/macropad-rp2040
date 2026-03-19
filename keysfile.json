@@ -32,7 +32,7 @@
         ]
       },
       "5": {
-        "name": "Minimize All Windows",
+        "name": "win+d",
         "key": [
           "windows",
           "d"

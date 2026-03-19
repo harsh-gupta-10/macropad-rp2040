@@ -1,0 +1,50 @@
+{
+  "special_keys": {
+    "volume_encoder_left": {
+      "name": "Volume Down",
+      "key": [
+        "media_volume_down"
+      ]
+    },
+    "volume_encoder_right": {
+      "name": "Volume Up",
+      "key": [
+        "media_volume_up"
+      ]
+    },
+    "volume_encoder_click": {
+      "name": "Play/Pause",
+      "key": [
+        "media_play_pause"
+      ]
+    },
+    "volume_encoder_hold": {
+      "name": "Mute",
+      "key": [
+        "media_mute"
+      ]
+    },
+    "display_encoder_left": {
+      "name": "Prev Profile",
+      "action": "profile_prev"
+    },
+    "display_encoder_right": {
+      "name": "Next Profile",
+      "action": "profile_next"
+    },
+    "display_encoder_click": {
+      "name": "Switch Profile",
+      "action": "profile_next"
+    },
+    "display_encoder_hold": {
+      "name": "No Action",
+      "action": "profile_next"
+    },
+    "mic_key": {
+      "name": "Mic Toggle",
+      "key": [
+        "f13"
+      ]
+    }
+  }
+}
