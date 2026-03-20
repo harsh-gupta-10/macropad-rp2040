@@ -30,22 +30,30 @@ class SoftwareEncoder:
         self.b.direction = digitalio.Direction.INPUT
         self.b.pull = digitalio.Pull.UP
         self.position = 0
-        self._last_state = (self.a.value, self.b.value)
+        self._state = (int(self.a.value) << 1) | int(self.b.value)
+        self._transition_accum = 0
+        # Valid Gray-code transitions: +1/-1 quarter-steps, 0 for invalid/bounce.
+        self._transition_table = (
+            0, -1, 1, 0,
+            1, 0, 0, -1,
+            -1, 0, 0, 1,
+            0, 1, -1, 0,
+        )
 
     def update(self):
-        current_state = (self.a.value, self.b.value)
-        if current_state != self._last_state:
-            if self._last_state[0] != current_state[0]:
-                if current_state[0] == current_state[1]:
-                    self.position -= 1
-                else:
+        current_state = (int(self.a.value) << 1) | int(self.b.value)
+        if current_state != self._state:
+            transition = (self._state << 2) | current_state
+            quarter_step = self._transition_table[transition]
+            if quarter_step:
+                self._transition_accum += quarter_step
+                if self._transition_accum >= 4:
                     self.position += 1
-            else:
-                if current_state[0] == current_state[1]:
-                    self.position += 1
-                else:
+                    self._transition_accum = 0
+                elif self._transition_accum <= -4:
                     self.position -= 1
-            self._last_state = current_state
+                    self._transition_accum = 0
+            self._state = current_state
 
 softEncoder2 = SoftwareEncoder(board.GP18, board.GP19)
 last_softPos2 = None
@@ -252,6 +260,9 @@ def run_special_action(action_id, actions):
 
 special_actions = load_special_actions()
 
+# Increase/decrease how many volume key events are sent per encoder tick.
+VOLUME_STEPS_PER_TICK = 3
+
 is_showing_image = False
 image_display_start = 0
 
@@ -270,36 +281,55 @@ def draw_bubbles(selected_index):
     profile_label.y = 10
     splash.append(profile_label)
 
-    bubble_width = 14
+    bubble_width = 17
     bubble_gap = 8
     total_bubbles = 6
     total_width = (bubble_width * 3) + (bubble_gap * 2)
     start_x = (display.width - total_width) // 2
-    start_y = profile_label.y + profile_label.bounding_box[3] + 5
+    start_y = profile_label.y + profile_label.bounding_box[3] + 2
 
     for i in range(total_bubbles):
         x = start_x + (i % 3) * (bubble_width + bubble_gap)
         y = start_y + (i // 3) * (bubble_width + bubble_gap)
         is_selected = (i == selected_index)
+        center = (bubble_width - 1) / 2
+        radius = (bubble_width - 2) / 2
+        inner_radius = max(radius - 1, 0)
+        radius_sq = radius * radius
+        inner_radius_sq = inner_radius * inner_radius
 
         if is_selected:
             bubble_bitmap = displayio.Bitmap(bubble_width, bubble_width, 2)
             bubble_palette = displayio.Palette(2)
-            bubble_palette[0] = 0xFFFFFF
-            bubble_palette[1] = 0x000000
+            bubble_palette[0] = 0x000000
+            bubble_palette[1] = 0xFFFFFF
             for px in range(bubble_width):
                 for py in range(bubble_width):
-                    if px in (0, bubble_width - 1) or py in (0, bubble_width - 1):
+                    dx = px - center
+                    dy = py - center
+                    dist_sq = (dx * dx) + (dy * dy)
+                    if dist_sq <= radius_sq and dist_sq >= inner_radius_sq:
+                        bubble_bitmap[px, py] = 1
+                    elif dist_sq < inner_radius_sq:
                         bubble_bitmap[px, py] = 0
                     else:
-                        bubble_bitmap[px, py] = 1
+                        bubble_bitmap[px, py] = 0
             bubble_sprite = displayio.TileGrid(bubble_bitmap, pixel_shader=bubble_palette, x=x, y=y)
             splash.append(bubble_sprite)
             number_label = label.Label(terminalio.FONT, text=str(i + 1), color=0xFFFFFF)
         else:
-            bubble_bitmap = displayio.Bitmap(bubble_width, bubble_width, 1)
-            bubble_palette = displayio.Palette(1)
-            bubble_palette[0] = 0xFFFFFF
+            bubble_bitmap = displayio.Bitmap(bubble_width, bubble_width, 2)
+            bubble_palette = displayio.Palette(2)
+            bubble_palette[0] = 0x000000
+            bubble_palette[1] = 0xFFFFFF
+            for px in range(bubble_width):
+                for py in range(bubble_width):
+                    dx = px - center
+                    dy = py - center
+                    if (dx * dx) + (dy * dy) <= radius_sq:
+                        bubble_bitmap[px, py] = 1
+                    else:
+                        bubble_bitmap[px, py] = 0
             bubble_sprite = displayio.TileGrid(bubble_bitmap, pixel_shader=bubble_palette, x=x, y=y)
             splash.append(bubble_sprite)
             number_label = label.Label(terminalio.FONT, text=str(i + 1), color=0x000000)
@@ -328,10 +358,12 @@ while True:
     position = encoder1.position
     if last_position_encoder1 is None:
         last_position_encoder1 = position
-    if position > last_position_encoder1:
-        run_special_action("volume_encoder_right", special_actions)
-    elif position < last_position_encoder1:
-        run_special_action("volume_encoder_left", special_actions)
+    delta1 = position - last_position_encoder1
+    if delta1 != 0:
+        step_count = abs(delta1) * VOLUME_STEPS_PER_TICK
+        action_id = "volume_encoder_right" if delta1 > 0 else "volume_encoder_left"
+        for _ in range(step_count):
+            run_special_action(action_id, special_actions)
     last_position_encoder1 = position
 
     # Read software-based encoder2
@@ -340,17 +372,11 @@ while True:
     if last_softPos2 is None:
         last_softPos2 = pos2
     delta2 = pos2 - last_softPos2
-    if abs(delta2) > 0:  # apply a threshold check if needed
-        if delta2 > 0:
-            internal_action = run_special_action("display_encoder_right", special_actions)
-            if internal_action == "profile_next":
-                selected_index = (selected_index + 1) % len(image_files)
-                draw_bubbles(selected_index)
-            elif internal_action == "profile_prev":
-                selected_index = (selected_index - 1) % len(image_files)
-                draw_bubbles(selected_index)
-        else:
-            internal_action = run_special_action("display_encoder_left", special_actions)
+    if delta2 != 0:
+        action_id = "display_encoder_right" if delta2 > 0 else "display_encoder_left"
+        step_count = abs(delta2)
+        for _ in range(step_count):
+            internal_action = run_special_action(action_id, special_actions)
             if internal_action == "profile_next":
                 selected_index = (selected_index + 1) % len(image_files)
                 draw_bubbles(selected_index)
@@ -428,6 +454,8 @@ while True:
         for col_index, col_pin in enumerate(cols):
             if col_pin.value and (time.monotonic() - last_key_press_time > debounce_delay):
                 key_number = key_mapping[(row_index, col_index)]
+                if key_number == 6:
+                    print(f"[MATRIX] *** KEY 6 DETECTED at ({row_index}, {col_index}) ***")
                 execute_action(key_number, selected_index)
                 last_key_press_time = time.monotonic()
         row_pin.value = False

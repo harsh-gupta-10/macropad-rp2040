@@ -3,9 +3,7 @@
     "0": {
       "1": {
         "name": "password lol",
-        "key": [
-          "text_input"
-        ],
+        "action": "text_input",
         "text_type": "single",
         "text_content": "2000\n"
       },
@@ -17,11 +15,14 @@
         "software": "notepad"
       },
       "3": {
-        "name": "Open File Explorer",
+        "name": "do u",
         "key": [
-          "windows",
-          "e"
-        ]
+          "text_input"
+        ],
+        "action": "text_input",
+        "text_content": "do you guys want a good marketing website at a lower budget?",
+        "text_type": "paragraph",
+        "text_press_enter": true
       },
       "4": {
         "name": "Open Task Manager",
@@ -32,7 +33,7 @@
         ]
       },
       "5": {
-        "name": "win+d",
+        "name": "Minimize All Windows",
         "key": [
           "windows",
           "d"
@@ -54,11 +55,14 @@
         ]
       },
       "8": {
-        "name": "window left",
+        "name": "do",
         "key": [
-          "windows",
-          "left"
-        ]
+          "text_input"
+        ],
+        "action": "text_input",
+        "text_content": "do you guys want a good marketing website at a lower budget?",
+        "text_type": "paragraph",
+        "text_press_enter": true
       },
       "9": {
         "name": "window right",
